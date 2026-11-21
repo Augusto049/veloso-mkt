@@ -109,8 +109,8 @@ $$('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*.08+'s';io.observe(el)
 const hs=$('#trabalhos'),track=$('#track');let maxX=0;
 let visCount=0;
 const lazyIO=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.style.backgroundImage=el.dataset.bg;lazyIO.unobserve(el)}),{rootMargin:'300px 900px'});
-$('.card .ph').forEach(el=>lazyIO.observe(el));
-function sizeHS(){const vis=visCount=$('.card:not(.hide)').length;maxX=Math.max(track.scrollWidth-innerWidth,0);hs.style.height=(innerHeight+maxX)+'px';$('#pt').textContent=String(vis).padStart(2,'0')}
+$$('.card .ph').forEach(el=>lazyIO.observe(el));
+function sizeHS(){const vis=visCount=$$('.card:not(.hide)').length;maxX=Math.max(track.scrollWidth-innerWidth,0);hs.style.height=(innerHeight+maxX)+'px';$('#pt').textContent=String(vis).padStart(2,'0')}
 $$('.filters button').forEach(b=>b.onclick=()=>{$$('.filters button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   $$('.card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.c!==b.dataset.f));sizeHS();onScroll()});
 addEventListener('resize',sizeHS);addEventListener('load',sizeHS);sizeHS();
