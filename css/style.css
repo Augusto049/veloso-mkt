@@ -198,9 +198,18 @@ h2{font-size:clamp(40px,7vw,116px);line-height:.95;max-width:1200px}
 .bul li:before{content:"+ ";color:var(--ac)}
 @media(max-width:800px){.bax{grid-template-columns:1fr}.bax .ar{transform:rotate(90deg);font-size:40px}}
 /* clients */
-.clients{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:60px}
-.clients div{background:var(--bg);padding:50px 20px;text-align:center;font-family:Anton;text-transform:uppercase;font-size:26px;color:var(--mut);transition:.4s}
-.clients div:hover{color:#000;background:var(--ac);letter-spacing:.06em}
+.logos{margin:60px -4vw 0;display:grid;gap:18px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.lrow{overflow:hidden;border-block:1px solid var(--line)}
+.ltrack{display:flex;width:max-content;animation:lgs 60s linear infinite}
+.lrow.rev .ltrack{animation-direction:reverse;animation-duration:70s}
+.lrow:hover .ltrack{animation-play-state:paused}
+@keyframes lgs{to{transform:translateX(-50%)}}
+.lg{flex:0 0 auto;height:120px;min-width:220px;padding:0 44px;display:grid;place-items:center;border-right:1px solid var(--line)}
+.lg img{max-height:62px;max-width:170px;width:auto;object-fit:contain;filter:grayscale(1) brightness(1.6);opacity:.7;transition:filter .4s,opacity .4s}
+.lg img+span{display:none}
+.lg span{font-family:Anton,Impact,sans-serif;text-transform:uppercase;font-size:24px;color:var(--mut);white-space:nowrap;transition:color .4s}
+.lg:hover span{color:var(--ac)}.lg:hover img{filter:none;opacity:1}
+@media(max-width:700px){.lg{height:90px;min-width:160px;padding:0 28px}.lg span{font-size:19px}}
 
 /* process */
 .steps{margin-top:70px;position:relative;padding-left:60px}
@@ -260,21 +269,24 @@ footer a:hover{color:var(--ac)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
 
 /* ---------- DRONE (decolagem + íris) ---------- */
-.drone{position:relative;height:420vh;background:var(--bg)}
+.drone{position:relative;height:640vh;background:var(--bg)}
 .dstick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .dtitle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4vh 4vw;font-size:clamp(64px,21vh,240px);line-height:.85;z-index:1;pointer-events:none;text-align:center}
 .dtitle span{display:block;will-change:transform}
 .dtitle em{font-style:normal;color:var(--ac)}
-.dhint{position:absolute;left:50%;bottom:calc(27vh - 34px);transform:translateX(-50%);z-index:4;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.dhint{position:absolute;left:50%;bottom:calc(27vh - 34px);transform:translateX(-50%);z-index:9;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
 .dv{position:absolute;inset:0;z-index:2;overflow:hidden;will-change:clip-path}
 .dv video,.dv .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
-.dv1{clip-path:inset(27% 34% round 28px)}
-.dv1:after,.dv2:after{content:"";position:absolute;inset:0;background:linear-gradient(#0a0a0a99,#0a0a0a00 28%,#0a0a0a00 55%,#0a0a0acc);pointer-events:none}
-.dv2{z-index:3;clip-path:circle(0% at 50% 50%)}
-.dv2 .bg{filter:blur(34px) brightness(.5);transform:scale(1.2)}
-.dv2 video.v{object-fit:contain}
-@media(orientation:portrait){.dv2 video.v{object-fit:cover}}
-.dhud{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .6s var(--ease);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.dl1{clip-path:inset(27% 36% round 28px)}
+.dl2{clip-path:circle(0% at 50% 50%)}
+.dl3{clip-path:inset(100% 0 0 0)}
+.dl4{clip-path:polygon(0 100%,0 100%,0 100%)}
+.dl1{z-index:2}.dl2{z-index:3}.dl3{z-index:4}.dl4{z-index:5}
+.dv:after{content:"";position:absolute;inset:0;background:linear-gradient(#0a0a0a99,#0a0a0a00 28%,#0a0a0a00 55%,#0a0a0acc);pointer-events:none}
+.dv .bg{filter:blur(34px) brightness(.5);transform:scale(1.2)}
+.dv video.v{object-fit:contain}
+@media(orientation:portrait){.dv video.v{object-fit:cover}}
+.dhud{position:absolute;inset:0;z-index:8;pointer-events:none;opacity:0;transition:opacity .6s var(--ease);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
 .dhud.on{opacity:1}
 .dhud .tl,.dhud .tr,.dhud .br{position:absolute}
 .dhud .tl{left:4vw;top:96px;display:flex;align-items:center;gap:10px}

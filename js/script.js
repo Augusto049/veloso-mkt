@@ -4,11 +4,13 @@
    ===================================================== */
 const WHATS = "554988267867";   // WhatsApp com DDI+DDD (+55 49 8826-7867). Vazio = usa o direct do Instagram
 const WORKS = [
- {t:"Drone — Polo industrial",c:"drone",l:"Imagens aéreas",d:"Voo ao pôr do sol mostrando a estrutura e a localização da empresa.",img:"img/drone-1-poster.jpg",video:"video/drone-1.mp4",g:"150deg,#ffb347,#4a1c00"},
+ {t:"Drone — Igreja Matriz",c:"drone",l:"Imagens aéreas",d:"Voo ao pôr do sol ao redor da torre: o cartão-postal da cidade em movimento.",img:"img/drone-igreja-poster.jpg",video:"video/drone-igreja.mp4",g:"150deg,#ffb347,#4a1c00"},
  {t:"Ensaio Campeiro",c:"momentos",l:"Ensaio",d:"Ensaio ao pôr do sol com contraluz, cavalo e muita personalidade.",img:"img/ensaio-cavalo.jpg",g:"150deg,#ffb347,#4a1c00"},
  {t:"Indústria em ação",c:"marketing",l:"Marketing industrial",d:"Faíscas, ferramentas e gente trabalhando: conteúdo que mostra a força da sua empresa.",img:"img/making-of-esmerilhadeira.jpg",g:"150deg,#ff7a2e,#3a1a05"},
  {t:"Casamento — Daminhas",c:"momentos",l:"Casamento",d:"Os momentos espontâneos que fazem a festa: família, risadas e emoção.",img:"img/casamento-daminhas.jpg",g:"150deg,#ffb347,#4a1c00"},
- {t:"Drone — Ponto comercial",c:"drone",l:"Imagens aéreas",d:"Vista aérea vertical, pronta para Reels e Stories, valorizando o imóvel e o entorno.",img:"img/drone-2-poster.jpg",video:"video/drone-2.mp4",g:"150deg,#ffb347,#4a1c00"},
+ {t:"Drone — Ponto comercial",c:"drone",l:"Imagens aéreas",d:"Vista aérea vertical, pronta para Reels e Stories, valorizando o imóvel e o entorno.",img:"img/drone-comercial-poster.jpg",video:"video/drone-comercial.mp4",g:"150deg,#ffb347,#4a1c00"},
+ {t:"Drone — Avenida",c:"drone",l:"Imagens aéreas",d:"Fachada, avenida e movimento: mostra onde a empresa fica e como é fácil chegar.",img:"img/drone-avenida-poster.jpg",video:"video/drone-avenida.mp4",g:"150deg,#00e0c6,#00302b"},
+ {t:"Drone — Vista da cidade",c:"drone",l:"Imagens aéreas",d:"Panorama da cidade para abrir vídeos institucionais e campanhas.",img:"img/drone-cidade-poster.jpg",video:"video/drone-cidade.mp4",g:"150deg,#4d7cff,#0b1440"},
  {t:"Cresol — Evento",c:"eventos",l:"Cobertura de evento",d:"Cobertura completa do evento: palco, público e a energia de cada momento.",img:"img/evento-cresol-palestra.jpg",g:"150deg,#ff7a2e,#3a1a05"},
  {t:"Óticonomia",c:"estudio",l:"Estúdio",d:"Retratos e produto em estúdio com cor forte e identidade de marca.",img:"img/oticonomia-retrato-1.jpg",g:"150deg,#7c8cff,#1a1a40"},
  {t:"Hocks",c:"estudio",l:"Estúdio",d:"Campanha de moda em estúdio para a Hocks, com luz e atitude.",img:"img/hocks-2.jpg",g:"150deg,#f4f1ea,#2a2a2a"},
@@ -40,9 +42,12 @@ const SERVICES = [
  {t:"Prova Social",p:"Depoimentos, casos de sucesso e parcerias que eliminam a dúvida de quem vai comprar.",img:"img/mkt-gastronomia.jpg"},
  {t:"Marketing de Experiência",p:"Uma jornada de compra memorável, com campanhas e ofertas que tiram o cliente da hesitação.",img:"img/oticonomia-grau.jpg"},
  {t:"Foto & Vídeo",p:"Estúdio, eventos, ensaios e vídeos cinematográficos com a assinatura Veloso.",img:"img/fashion-alce.jpg"},
- {t:"Imagens Aéreas",p:"Voos de drone que mostram o tamanho, a estrutura e a localização do seu negócio.",img:"img/drone-1-poster.jpg"}
+ {t:"Imagens Aéreas",p:"Voos de drone que mostram o tamanho, a estrutura e a localização do seu negócio.",img:"img/drone-igreja-poster.jpg"}
 ];
-const CLIENTS = ["Cresol","Óticonomia","Audio Quali","Cantina D'Italia","Hocks","Fashion Wall","TV Record"];
+/* Clientes: para usar a LOGO, salve o arquivo em img/clientes/ com o nome gerado (ex: "Clínica Veterinária Girassol" -> clinica-veterinaria-girassol.png).
+   Sem arquivo, aparece o nome em texto. */
+const CLIENTS = ["Clínica Veterinária Girassol","Vassora Audiotech","Star Proteção Veicular","CM Reparos Automotivos","Dra. Juliana Gianni","Apple Play","Mecânica Sagui","Greenfall Skatepark","Supermercado Brazzão","Contathos Assessoria Contábil","Ponto Quente","HM Tech","BM Store","Divina Massa","Bowaro Churrascaria","CT Nine","Agro Caíque","Kusmann Academia","Taylor Contabilidade","Plantão do Gole","Marcio Poletto Advocacia","Cresol","Óticonomia","Audio Quali","Cantina D'Italia","Hocks","Fashion Wall","TV Record"];
+const slug=n=>n.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const ABOUT = "Por trás de todo CNPJ existe um *CPF*. A gente transforma empresas comuns em marcas *fortes*, *memoráveis* e *escolhidas*.";
 
 /* ============ helpers ============ */
@@ -64,7 +69,8 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 $('#svc').innerHTML=SERVICES.map((s,i)=>`<a href="#orcamento" data-img="${s.img}"><em>0${i+1}</em><h3>${s.t}</h3><p>${s.p}</p><span>↗</span></a>`).join('');
 $('#ig').innerHTML=IMPACT.map((t,i)=>`<div><small>0${i+1}</small>${t}</div>`).join('');
 SERVICES.forEach(s=>{const i=new Image();i.src=s.img});
-$('#clients').innerHTML=CLIENTS.map(c=>`<div>${c}</div>`).join('');
+(function(){const h=Math.ceil(CLIENTS.length/2),item=c=>`<div class="lg"><img src="img/clientes/${slug(c)}.png" alt="${c}" loading="lazy" onerror="this.remove()"><span>${c}</span></div>`;
+  [['#lr1',CLIENTS.slice(0,h)],['#lr2',CLIENTS.slice(h)]].forEach(([id,a])=>{const html=a.map(item).join('');$(id).innerHTML=html+html})})();
 const mk=(id,a)=>$(id).innerHTML=a.map(x=>`<span>${x} ✦</span>`).join('').repeat(4);
 mk('#m1',['Vídeo','Foto','Drone','Marketing','Social Media','Branding','Reels','Tráfego']);
 mk('#m2',[...CLIENTS,'Caos Studio']);
@@ -175,26 +181,36 @@ function tick(){
 tick();
 setInterval(()=>{clock.textContent=new Date().toLocaleTimeString('pt-BR',{timeZone:'America/Sao_Paulo'})},1000);
 
-/* ============ drone: decolagem + transição em íris ============ */
+/* ============ drone: decolagem + 3 transições (íris, cortina, diagonal) ============ */
 (function(){
   const dr=$('#drone');if(!dr)return;
-  const v1=$('#dv1'),v2=$('#dv2'),vid1=v1.querySelector('video'),vid2=v2.querySelector('video.v'),tt=$('#dtop'),tb=$('#dbot'),hud=$('#dhud'),
-        c1=$('#dcap1'),c2=$('#dcap2'),alt=$('#dalt'),cnt=$('#dcnt'),pr=$('#dpr'),hint=$('#dhint');
-  const cl=x=>Math.min(Math.max(x,0),1),ez=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+  const L=[1,2,3,4].map(i=>$('#dl'+i)),V=L.map(l=>l.querySelector('video')),tt=$('#dtop'),tb=$('#dbot'),hud=$('#dhud'),
+        caps=$$('#drone .dcap'),alt=$('#dalt'),cnt=$('#dcnt'),pr=$('#dpr'),hint=$('#dhint');
+  const cl=x=>Math.min(Math.max(x,0),1),ez=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,seg=(p,s,e)=>ez(cl((p-s)/(e-s)));
   function upd(){
     const r=dr.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
-    const p=cl(-r.top/(dr.offsetHeight-innerHeight||1)),a=ez(cl(p/.3)),b=ez(cl((p-.52)/.26));
-    const side=innerWidth>innerHeight?34:12;
-    v1.style.clipPath=`inset(${(1-a)*27}% ${(1-a)*side}% round ${(1-a)*28}px)`;
-    vid1.style.transform=`scale(${1.3-a*.3+b*.18})`;vid1.style.filter=`blur(${b*10}px) brightness(${1-b*.4})`;
+    const p=cl(-r.top/(dr.offsetHeight-innerHeight||1));
+    const a=seg(p,0,.16),b=seg(p,.28,.42),c=seg(p,.52,.66),d=seg(p,.76,.9);
+    const side=innerWidth>innerHeight?36:12;
+    // 1) decolagem: o quadro cresce até a tela cheia
+    L[0].style.clipPath=`inset(${(1-a)*27}% ${(1-a)*side}% round ${(1-a)*28}px)`;
     tt.style.transform=`translateY(${-a*45}vh)`;tb.style.transform=`translateY(${a*45}vh)`;tt.style.opacity=tb.style.opacity=hint.style.opacity=1-a;
-    v2.style.clipPath=`circle(${b*80}% at 50% 50%)`;vid2.style.transform=`scale(${1.25-b*.25}) rotate(${(1-b)*-6}deg)`;
+    // 2) íris circular
+    L[1].style.clipPath=`circle(${b*80}% at 50% 50%)`;
+    // 3) cortina: sobe de baixo para cima
+    L[2].style.clipPath=`inset(${(1-c)*100}% 0 0 0)`;
+    // 4) corte diagonal
+    const k=d*220;L[3].style.clipPath=`polygon(0 ${100-k}%, ${k}% 100%, 0 100%)`;
+    // movimento de câmera em cada camada
+    const st=[a,b,c,d],nx=[b,c,d,0];
+    V.forEach((v,i)=>{v.style.transform=`scale(${1.25-st[i]*.25+nx[i]*.12})`;v.style.filter=`blur(${nx[i]*10}px) brightness(${1-nx[i]*.45})`});
+    const idx=d>.5?3:c>.5?2:b>.5?1:0;
     hud.classList.toggle('on',a>.92);
-    c1.classList.toggle('on',a>.95&&p<.55);c2.classList.toggle('on',p>.74);
-    alt.textContent=String(Math.round(30+p*120)).padStart(3,'0');cnt.textContent=b>.5?'02':'01';pr.style.width=(p*100)+'%';
+    caps.forEach((e,i)=>e.classList.toggle('on',a>.95&&i===idx));
+    alt.textContent=String(Math.round(30+p*120)).padStart(3,'0');cnt.textContent='0'+(idx+1);pr.style.width=(p*100)+'%';
   }
   addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
-  new IntersectionObserver(es=>{const on=es[0].isIntersecting;$$('#drone video').forEach(v=>on?v.play().catch(()=>{}):v.pause())},{rootMargin:'200px'}).observe(dr);
+  new IntersectionObserver(es=>{const on=es[0].isIntersecting;V.forEach(v=>on?v.play().catch(()=>{}):v.pause())},{rootMargin:'200px'}).observe(dr);
 })();
 
 /* ============ confete no logo ============ */
