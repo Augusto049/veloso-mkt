@@ -47,7 +47,7 @@ const SERVICES = [
 /* Clientes: para usar a LOGO, salve o arquivo em img/clientes/ com o nome gerado (ex: "Clínica Veterinária Girassol" -> clinica-veterinaria-girassol.png).
    Sem arquivo, aparece o nome em texto. */
 const CLIENTS = ["Clínica Veterinária Girassol","Vassora Audiotech","Star Proteção Veicular","CM Reparos Automotivos","Dra. Juliana Gianni","Apple Play","Mecânica Sagui","Greenfall Skatepark","Supermercado Brazzão","Contathos Assessoria Contábil","Ponto Quente","HM Tech","BM Store","Divina Massa","Bowaro Churrascaria","CT Nine","Agro Caíque","Kusmann Academia","Taylor Contabilidade","Plantão do Gole","Marcio Poletto Advocacia","AutoCar Veículos","Cresol","Óticonomia","Audio Quali","Cantina D'Italia","Hocks","Fashion Wall","TV Record"];
-const LOGO_INV=["contathos-assessoria-contabil","cantina-d-italia","cresol","ct-nine","supermercado-brazzao","autocar-veiculos"]; // logos com tinta escura: invertidas para aparecer no fundo preto
+const LOGO_INV=["contathos-assessoria-contabil","cantina-d-italia","cresol","supermercado-brazzao","autocar-veiculos"]; // logos com tinta escura: invertidas para aparecer no fundo preto
 const slug=n=>n.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const ABOUT = "Por trás de todo CNPJ existe um *CPF*. A gente transforma empresas comuns em marcas *fortes*, *memoráveis* e *escolhidas*.";
 
