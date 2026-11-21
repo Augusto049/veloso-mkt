@@ -46,7 +46,8 @@ const SERVICES = [
 ];
 /* Clientes: para usar a LOGO, salve o arquivo em img/clientes/ com o nome gerado (ex: "Clínica Veterinária Girassol" -> clinica-veterinaria-girassol.png).
    Sem arquivo, aparece o nome em texto. */
-const CLIENTS = ["Clínica Veterinária Girassol","Vassora Audiotech","Star Proteção Veicular","CM Reparos Automotivos","Dra. Juliana Gianni","Apple Play","Mecânica Sagui","Greenfall Skatepark","Supermercado Brazzão","Contathos Assessoria Contábil","Ponto Quente","HM Tech","BM Store","Divina Massa","Bowaro Churrascaria","CT Nine","Agro Caíque","Kusmann Academia","Taylor Contabilidade","Plantão do Gole","Marcio Poletto Advocacia","Cresol","Óticonomia","Audio Quali","Cantina D'Italia","Hocks","Fashion Wall","TV Record"];
+const CLIENTS = ["Clínica Veterinária Girassol","Vassora Audiotech","Star Proteção Veicular","CM Reparos Automotivos","Dra. Juliana Gianni","Apple Play","Mecânica Sagui","Greenfall Skatepark","Supermercado Brazzão","Contathos Assessoria Contábil","Ponto Quente","HM Tech","BM Store","Divina Massa","Bowaro Churrascaria","CT Nine","Agro Caíque","Kusmann Academia","Taylor Contabilidade","Plantão do Gole","Marcio Poletto Advocacia","AutoCar Veículos","Cresol","Óticonomia","Audio Quali","Cantina D'Italia","Hocks","Fashion Wall","TV Record"];
+const LOGO_INV=["contathos-assessoria-contabil","cantina-d-italia","cresol","ct-nine","supermercado-brazzao","autocar-veiculos"]; // logos com tinta escura: invertidas para aparecer no fundo preto
 const slug=n=>n.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const ABOUT = "Por trás de todo CNPJ existe um *CPF*. A gente transforma empresas comuns em marcas *fortes*, *memoráveis* e *escolhidas*.";
 
@@ -54,11 +55,14 @@ const ABOUT = "Por trás de todo CNPJ existe um *CPF*. A gente transforma empres
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const bg=w=>w.img?`url(${w.img})`:`linear-gradient(${w.g})`;
 const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+/* modo leve: celular, tela pequena ou navegador interno do Instagram/Facebook */
+const LITE=!fine||innerWidth<900||/Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+if(LITE)document.documentElement.classList.add('lite');
 
 /* ============ preloader ============ */
 (function(){
   const pn=$('#pn'),pb=$('#pb');let v=0;
-  const iv=setInterval(()=>{v+=Math.random()*9+3;if(v>=100){v=100;clearInterval(iv);setTimeout(()=>{$('#pre').classList.add('out');document.body.classList.remove('lock');document.body.classList.add('go')},350)}
+  const iv=setInterval(()=>{v+=LITE?Math.random()*22+14:Math.random()*9+3;if(v>=100){v=100;clearInterval(iv);setTimeout(()=>{$('#pre').classList.add('out');document.body.classList.remove('lock');document.body.classList.add('go')},350)}
     pn.textContent=Math.floor(v);pb.style.width=v+'%'},70);
 })();
 
@@ -68,14 +72,14 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
 /* ============ build content ============ */
 $('#svc').innerHTML=SERVICES.map((s,i)=>`<a href="#orcamento" data-img="${s.img}"><em>0${i+1}</em><h3>${s.t}</h3><p>${s.p}</p><span>↗</span></a>`).join('');
 $('#ig').innerHTML=IMPACT.map((t,i)=>`<div><small>0${i+1}</small>${t}</div>`).join('');
-SERVICES.forEach(s=>{const i=new Image();i.src=s.img});
-(function(){const h=Math.ceil(CLIENTS.length/2),item=c=>`<div class="lg"><img src="img/clientes/${slug(c)}.png" alt="${c}" loading="lazy" onerror="this.remove()"><span>${c}</span></div>`;
+if(!LITE)SERVICES.forEach(s=>{const i=new Image();i.src=s.img});
+(function(){const h=Math.ceil(CLIENTS.length/2),item=c=>`<div class="lg${LOGO_INV.includes(slug(c))?' inv':''}"><img src="img/clientes/${slug(c)}.png" alt="${c}" loading="lazy" onerror="this.remove()"><span>${c}</span></div>`;
   [['#lr1',CLIENTS.slice(0,h)],['#lr2',CLIENTS.slice(h)]].forEach(([id,a])=>{const html=a.map(item).join('');$(id).innerHTML=html+html})})();
 const mk=(id,a)=>$(id).innerHTML=a.map(x=>`<span>${x} ✦</span>`).join('').repeat(4);
 mk('#m1',['Vídeo','Foto','Drone','Marketing','Social Media','Branding','Reels','Tráfego']);
 mk('#m2',[...CLIENTS,'Caos Studio']);
 $('#about').innerHTML=ABOUT.split(' ').map(w=>{const hl=w.startsWith('*');return `<span class="w${hl?' hl':''}">${w.replace(/\*/g,'')}</span>`}).join(' ');
-$('#track').innerHTML=WORKS.map((w,i)=>`<div class="card" data-i="${i}" data-c="${w.c}" data-cur="ABRIR"><div class="ph" style="background-image:${bg(w)}"></div>${w.video?`<video src="${w.video}" muted loop playsinline preload="none"></video>`:''}<span class="idx">${String(i+1).padStart(2,'0')}</span>${w.c==='video'?'<div class="play">▶</div>':''}<div class="meta"><small>${w.l}</small><h4>${w.t}</h4></div></div>`).join('');
+$('#track').innerHTML=WORKS.map((w,i)=>`<div class="card" data-i="${i}" data-c="${w.c}" data-cur="ABRIR"><div class="ph" data-bg="${bg(w)}" style="background-image:linear-gradient(${w.g})"></div>${w.video?`<video src="${w.video}" muted loop playsinline preload="none"></video>`:''}<span class="idx">${String(i+1).padStart(2,'0')}</span>${w.c==='video'?'<div class="play">▶</div>':''}<div class="meta"><small>${w.l}</small><h4>${w.t}</h4></div></div>`).join('');
 $('#chips').innerHTML=['Branding','Impact Marketing','Foto & Vídeo','Imagens com drone','Social Media','Gestão de Tráfego','Planejamento de 12 meses'].map(c=>`<button class="chip" type="button">${c}</button>`).join('');
 
 /* ============ cursor ============ */
@@ -103,7 +107,10 @@ $$('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*.08+'s';io.observe(el)
 
 /* ============ filter + horizontal pin ============ */
 const hs=$('#trabalhos'),track=$('#track');let maxX=0;
-function sizeHS(){const vis=$$('.card:not(.hide)').length;maxX=Math.max(track.scrollWidth-innerWidth,0);hs.style.height=(innerHeight+maxX)+'px';$('#pt').textContent=String(vis).padStart(2,'0')}
+let visCount=0;
+const lazyIO=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.style.backgroundImage=el.dataset.bg;lazyIO.unobserve(el)}),{rootMargin:'300px 900px'});
+$('.card .ph').forEach(el=>lazyIO.observe(el));
+function sizeHS(){const vis=visCount=$('.card:not(.hide)').length;maxX=Math.max(track.scrollWidth-innerWidth,0);hs.style.height=(innerHeight+maxX)+'px';$('#pt').textContent=String(vis).padStart(2,'0')}
 $$('.filters button').forEach(b=>b.onclick=()=>{$$('.filters button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   $$('.card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.c!==b.dataset.f));sizeHS();onScroll()});
 addEventListener('resize',sizeHS);addEventListener('load',sizeHS);sizeHS();
@@ -157,13 +164,13 @@ function onScroll(){
   // horizontal
   const hr=hs.getBoundingClientRect(),hp=Math.min(Math.max(-hr.top/(hs.offsetHeight-innerHeight||1),0),1);
   track.style.transform=`translateX(${-hp*maxX}px)`;
-  const vis=$$('.card:not(.hide)').length;$('#pf').style.width=(hp*100)+'%';$('#pc').textContent=String(Math.min(Math.round(hp*(vis-1))+1,vis||1)).padStart(2,'0');
+  const vis=visCount;$('#pf').style.width=(hp*100)+'%';$('#pc').textContent=String(Math.min(Math.round(hp*(vis-1))+1,vis||1)).padStart(2,'0');
   // process
   const sr=stepsEl.getBoundingClientRect(),sp=Math.min(Math.max((innerHeight*.6-sr.top)/sr.height,0),1);
   fill.style.height=(sp*100)+'%';
   steps.forEach(s=>{const r=s.getBoundingClientRect();s.classList.toggle('act',r.top<innerHeight*.6)});
 }
-addEventListener('scroll',onScroll,{passive:true});onScroll();
+let sTick=false;addEventListener('scroll',()=>{if(sTick)return;sTick=true;requestAnimationFrame(()=>{sTick=false;onScroll()})},{passive:true});onScroll();
 
 /* ============ marquees (velocidade ligada ao scroll) ============ */
 const mq=[[$('#m1'),-1],[$('#m2'),1]];mq.forEach(m=>m.push(0));
@@ -171,9 +178,9 @@ const mq=[[$('#m1'),-1],[$('#m2'),1]];mq.forEach(m=>m.push(0));
 const clock=$('#clock');
 function tick(){
   // cursor ring lerp
-  rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';
+  if(fine){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';
   // preview lerp
-  px+=(tx-px)*.12;py+=(ty-py)*.12;pv.style.left=px+'px';pv.style.top=py+'px';
+  px+=(tx-px)*.12;py+=(ty-py)*.12;pv.style.left=px+'px';pv.style.top=py+'px';}
   // marquees
   vel*=.92;
   mq.forEach(m=>{const el=m[0];m[2]+=m[1]*(.8+Math.abs(vel)*.35);const half=el.scrollWidth/2;if(m[2]<=-half)m[2]+=half;if(m[2]>0)m[2]-=half;el.style.transform=`translateX(${m[2]}px)`});
@@ -203,7 +210,7 @@ setInterval(()=>{clock.textContent=new Date().toLocaleTimeString('pt-BR',{timeZo
     const k=d*220;L[3].style.clipPath=`polygon(0 ${100-k}%, ${k}% 100%, 0 100%)`;
     // movimento de câmera em cada camada
     const st=[a,b,c,d],nx=[b,c,d,0];
-    V.forEach((v,i)=>{v.style.transform=`scale(${1.25-st[i]*.25+nx[i]*.12})`;v.style.filter=`blur(${nx[i]*10}px) brightness(${1-nx[i]*.45})`});
+    V.forEach((v,i)=>{v.style.transform=`scale(${1.25-st[i]*.25+nx[i]*.12})`;v.style.filter=LITE?`brightness(${1-nx[i]*.45})`:`blur(${nx[i]*10}px) brightness(${1-nx[i]*.45})`});
     const idx=d>.5?3:c>.5?2:b>.5?1:0;
     hud.classList.toggle('on',a>.92);
     caps.forEach((e,i)=>e.classList.toggle('on',a>.95&&i===idx));
@@ -220,7 +227,7 @@ $('#logo').onclick=()=>{for(let i=0;i<70;i++){const d=document.createElement('i'
 
 /* ============ WebGL: fluido neon no hero ============ */
 (function(){
-  const cv=$('#gl'),gl=cv.getContext('webgl');if(!gl){cv.remove();return}
+  const cv=$('#gl');if(LITE){cv.remove();return}const gl=cv.getContext('webgl');if(!gl){cv.remove();return}
   const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}';
   const fs=`precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;
   float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
@@ -244,4 +251,13 @@ $('#logo').onclick=()=>{for(let i=0;i<70;i++){const d=document.createElement('i'
   new IntersectionObserver(es=>on=es[0].isIntersecting).observe(hero);
   const t0=performance.now();
   (function f(){if(on){sx+=(tx-sx)*.06;sy+=(ty-sy)*.06;gl.uniform2f(ur,cv.width,cv.height);gl.uniform1f(ut,(performance.now()-t0)/1000);gl.uniform2f(um,sx,sy);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}requestAnimationFrame(f)})();
+})();
+
+/* ============ aviso de privacidade + ano no rodapé ============ */
+(function(){
+  const y=document.getElementById('yr');if(y)y.textContent=new Date().getFullYear();
+  const c=document.getElementById('cookie');if(!c)return;
+  let ok=false;try{ok=localStorage.getItem('vls-privacidade')==='ok'}catch(e){}
+  if(!ok)setTimeout(()=>c.hidden=false,2500);
+  document.getElementById('cookieok').onclick=()=>{c.hidden=true;try{localStorage.setItem('vls-privacidade','ok')}catch(e){}};
 })();

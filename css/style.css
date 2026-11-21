@@ -205,10 +205,11 @@ h2{font-size:clamp(40px,7vw,116px);line-height:.95;max-width:1200px}
 .lrow:hover .ltrack{animation-play-state:paused}
 @keyframes lgs{to{transform:translateX(-50%)}}
 .lg{flex:0 0 auto;height:120px;min-width:220px;padding:0 44px;display:grid;place-items:center;border-right:1px solid var(--line)}
-.lg img{max-height:62px;max-width:170px;width:auto;object-fit:contain;filter:grayscale(1) brightness(1.6);opacity:.7;transition:filter .4s,opacity .4s}
+.lg img{max-height:70px;max-width:190px;width:auto;height:auto;object-fit:contain;opacity:.85;transition:opacity .4s,transform .4s}
+.lg.inv img{filter:invert(1) hue-rotate(180deg)}
 .lg img+span{display:none}
 .lg span{font-family:Anton,Impact,sans-serif;text-transform:uppercase;font-size:24px;color:var(--mut);white-space:nowrap;transition:color .4s}
-.lg:hover span{color:var(--ac)}.lg:hover img{filter:none;opacity:1}
+.lg:hover span{color:var(--ac)}.lg:hover img{opacity:1;transform:scale(1.06)}
 @media(max-width:700px){.lg{height:90px;min-width:160px;padding:0 28px}.lg span{font-size:19px}}
 
 /* process */
@@ -309,3 +310,25 @@ footer a:hover{color:var(--ac)}
 .dprog b{display:block;height:100%;width:0;background:var(--ac)}
 @media(max-width:700px){.dhud .tl,.dhud .tr{top:84px}.dframe{display:none}.dcap{bottom:84px}.dhud .br{bottom:28px}}
 @media(prefers-reduced-motion:reduce){.drone{height:auto}.dstick{position:relative}}
+
+/* ---------- MODO LEVE (celular / navegador do Instagram) ---------- */
+.hero{min-height:100svh}
+.lite body:after{display:none}
+.lite .hero{background:radial-gradient(ellipse at 75% 20%,#c6ff3d2e,transparent 55%),radial-gradient(ellipse at 10% 90%,#ff4d2e1f,transparent 60%),var(--bg)}
+.lite #dot,.lite #ring,.lite #pv{display:none}
+.lite body,.lite a,.lite button,.lite summary,.lite .card{cursor:auto}
+.lite #lb{backdrop-filter:none;background:#000f}
+.lite .fl{box-shadow:none}
+@media(orientation:portrait){.dv .bg{display:none}}
+.card .ph{transition:transform .8s,background-image .3s}
+@media(max-width:700px){.drone{height:520vh}}
+
+/* ---------- LEGAL ---------- */
+.qnote{font-size:12px;line-height:1.5;color:#000000aa;margin-top:16px;max-width:420px}
+.qnote a{text-decoration:underline}
+footer .legal a{text-decoration:underline;text-underline-offset:3px}
+.cookie{position:fixed;left:16px;bottom:16px;z-index:950;max-width:420px;background:#141414;border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:center;font-size:13px;line-height:1.5;color:var(--mut);box-shadow:0 20px 50px #000a}
+.cookie[hidden]{display:none}
+.cookie a{color:var(--fg);text-decoration:underline}
+.cookie button{flex-shrink:0;background:var(--ac);color:#000;border:0;border-radius:100px;padding:10px 18px;font:800 12px Inter;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+@media(max-width:600px){.cookie{right:90px;left:12px;bottom:12px;flex-direction:column;align-items:flex-start;padding:14px}}
