@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://velosostudio.com.br/sitemap.xml
